@@ -22,6 +22,8 @@ like `lameXX.enst.fr`. Then just clone the repository:
 
     git clone https://github.com/ychalier/HashCode2018.git
 
+Servers `lameXX` from 10 to 19 are running on Fedora, 20 to 22 on Ubuntu.
+
 ### Create source `zip` archive for submissions
 
 On *Linux*:
@@ -36,3 +38,24 @@ On *Windows*:
     rmdir "src" /s /q
 
 All this is in `zip.bat`.
+
+### Using virtual environments
+
+Remark: can not use virtual environments for Python3 on remote ENST servers,
+but most modules are already installed.
+
+    python -m virtualenv venv/
+
+On *Linux*:
+
+    source venv/bin/activate
+
+On *Windows*:
+
+    venv\Scripts\activate.bat
+
+**Exporting modules:**
+
+    pip freeze
+
+Then copy/paste everything to `requirements.txt`.
