@@ -5,6 +5,8 @@ Repository for Google Hash Code 2018.
 
  - [Yohan Chalier](https://github.com/ychalier/)
  - [Gauthier Tallec](https://github.com/gtallec/)
+ - [François Amat](https://github.com/Fran-cois)
+ - [Felix Gaschi]()
 
 ## Links
 
@@ -23,6 +25,36 @@ like `lameXX.enst.fr`. Then just clone the repository:
     git clone https://github.com/ychalier/HashCode2018.git
 
 Servers `lameXX` from 10 to 19 are running on Fedora, 20 to 22 on Ubuntu.
+
+### Parallelization
+
+A basic framework is implemented in `parallel.py`. It implements both *multithreading* (multiple threads on single core) and *multiprocessing* (multiple cores with one thread). Here is a little guide to use it:
+
+First, import `parallel.py` in your file.
+
+    from parallel import *
+
+The define the processing function you want to parallelize. This function must take *one and only one* positional argument.
+
+    def target(arg):
+      print(arg)
+
+From here, all you are going to write must be written under the condition:
+
+    if __name__ == "__main__":
+
+Then create the jobs (either threads or processes) with the `dispatch` function.
+ - First argument is the mode, either `"p"` for processes or `"t"` for threads.
+ - Second argument is the function, `target`.
+ - Third argument is the dataset, i.e. a *list* of the elements to use the function on
+ - Fourth argument (*optional*) is the number of threads/processes to use. If none is provided, it uses the number of cores detected on the machine.
+
+
+    jobs = dispatch("p", target, [k for k in range(100)])
+
+Finally, you can start each job with the method `.start()`, and wait till it terminates with `.join()`. The function `start_and_wait` will do that for you. This function returns the elpased in seconds (and prints it before).
+
+    start_and_wait(jobs)
 
 ### Create source `zip` archive for submissions
 
