@@ -43,12 +43,7 @@ From here, all you are going to write must be written under the condition:
 
     if __name__ == "__main__":
 
-Then create the jobs (either threads or processes) with the `dispatch` function.
- - First argument is the mode, either `"p"` for processes or `"t"` for threads.
- - Second argument is the function, `target`.
- - Third argument is the dataset, i.e. a *list* of the elements to use the function on
- - Fourth argument (*optional*) is the number of threads/processes to use. If none is provided, it uses the number of cores detected on the machine.
-
+Then create the jobs (either threads or processes) with the `dispatch` function. First argument is the mode, either `"p"` for processes or `"t"` for threads. Second argument is the function, `target`. Third argument is the dataset, i.e. a *list* of the elements to use the function on. Fourth argument (*optional*) is the number of threads/processes to use. If none is provided, it uses the number of cores detected on the machine.
 
     jobs = dispatch("p", target, [k for k in range(100)])
 
