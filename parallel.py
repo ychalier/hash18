@@ -55,5 +55,5 @@ def start_and_wait(jobs):
     for job in jobs:
         job.join()
     t_elapsed = time.time() - t_start
-    print("All jobs terminated.\nElpased time (seconds):", t_elapsed)
+    print("All jobs terminated.\nElapsed time (seconds):", t_elapsed)
     return t_elapsed
