@@ -14,6 +14,7 @@ Repository for Google Hash Code 2018.
  - [Judge System](https://hashcodejudge.withgoogle.com/)
  - [InfRes servers](https://services.infres.enst.fr/services/infres/serveurs.html)
  - [InfRes servers cpu](https://services.infres.enst.fr/cpu/)
+ - [Countdown](http://yohan.chalier.fr/hashcode/)
 
 ## Tools
 
