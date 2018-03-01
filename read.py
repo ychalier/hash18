@@ -36,28 +36,53 @@ class Ride:
     def __repr__(self):
         return str(self.id)
 
+    
+
 
 class Vehicule:
     def __init__(self, id_):
         self.id = id_
-        self.pos = 0, 0
+        #self.pos = 0, 0
         self.rides = []
-        self.time = 0
+        self.margin = 0
+        self.time = []
 
     def add_ride(self, ride):
-        self.time += ride.distance
-        self.pos = ride.finish
-        self.rides.append(ride)
-
-    def time_for_ride(self, ride):
-        t = self.time + distance(self.pos, ride.start)
-        return t
+        if self.rides == []:
+            self.margin = ride.latest_finish - ride.earlier_start - ride.distance
+            self.time.append(ride.earlier_start)
+        else:
+            self.margin = self.margin + \
+                          self.time[-1] - ride.earlier_start - \
+                          distance(ride.start, self.ride[-1].start)     
+            self.time = [ride.earlier_start] + self.time
+                          
+        self.rides = [ride] + self.rides
+        #self.time += ride.distance
+        #self.pos = ride.finish
+    
+    #def time_for_ride(self, ride):
+     #   t = self.time + distance(self.pos, ride.start)
+      #  return t
 
     def __str__(self):
         return str(self.rides)
 
     def __repr__(self):
         return self.__str__()
+
+    def getPotMargin(self, ride):
+        if self.rides == []:
+            margin = ride.latest_finish - ride.earlier_start - ride.distance
+            return margin
+        else:
+            margin = self.margin + \
+                          self.time[-1] - ride.earlier_start - \
+                          distance(ride.start, self.ride[-1].start)     
+            return margin
+    def ajoutTelquel(self, ride):
+        return getPotMargin(ride) > 0               
+
 
 
 def distance(start, finish):
