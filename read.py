@@ -1,3 +1,5 @@
+import math as m
+
 class Input:
     def __init__(self, line):
         split = line.split(" ")
@@ -25,11 +27,16 @@ class Ride:
         self.finish = int(split[2]), int(split[3])
         self.earlier_start = int(split[4])
         self.latest_finish = int(split[5])
+        self.distance = distance(self.start, self.finish)
 
     def __str__(self):
         return "ride from " + str(self.start) + " to " + str(self.finish)\
                + ", earliest start " + str(self.earlier_start)\
                + ", latest finish " + str(self.latest_finish)
+
+
+def distance(start, finish):
+    return abs(start[0] - finish[0]) + abs(start[1] - finish[1])
 
 
 def read_file(filename):
