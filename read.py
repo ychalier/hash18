@@ -50,8 +50,7 @@ class Vehicule:
         self.rides.append(ride)
 
     def time_for_ride(self, ride):
-        t = self.time + distance(self.pos, ride.start)
-        return t
+        return self.time + distance(self.pos, ride.start)
 
     def __str__(self):
         return str(self.rides)

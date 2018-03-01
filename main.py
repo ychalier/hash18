@@ -12,19 +12,49 @@ def output(vehicules, filename):
 
 
 def compute_file(filename):
+    print("Computing file " + filename)
     inp = read_file(filename)
-    inp.rides.sort(key=lambda x: x.earlier_start)
+    inp.rides.sort(key=lambda x: -x.latest_finish)
     vehicules = [Vehicule(i) for i in range(inp.F)]
-    for ride in inp.rides:
-        min_index = 0
-        minimum = vehicules[0].time_for_ride(ride)
-        for i in range(1, inp.F):
-            current_value = vehicules[i].time_for_ride(ride)
-            if current_value < minimum:
-                min_index = i
-                minimum = current_value
-        vehicules[min_index].add_ride(ride)
+
+    # Ajout des premiers rides
+    for i in range(inp.F):
+        vehicules[i].add_ride(inp.rides[i])
+
+    # Ajout des suivants
+    for i in range(inp.F, inp.N):
+        ride = inp.rides[i]
+
+        max_index = -1
+        max_margin = None
+        for j in range(inp.F):
+
+            # Si le vehicule peut prendre la course
+            if vehicules[i].can_take(ride):
+                margin = vehicules[i].margin_if_added(ride)
+                if margin < max_margin:
+                    max_margin = margin
+                    max_index = i
+
+        if max_index >= 0:  # On peut poser la course directement
+            vehicules[max_index].add_ride(ride)
+        else:  # Il va falloir decaller
+            tries = 0
+            while tries < inp.F:
+                max_index = -1
+                max_margin = None
+                for j in range(inp.F):
+                    margin = vehicules[i].margin_if_added(ride)
+                    if margin < max_margin:
+                        max_margin = margin
+                        max_index = i
+
+                if vehicules[max_index].can_push(ride):
+                    vehicules[max_index].push_ride(ride)
+
+                tries += 1
     output(vehicules, filename[:-3] + ".out")
+
 
 compute_file("a_example.in")
 compute_file("b_should_be_easy.in")
