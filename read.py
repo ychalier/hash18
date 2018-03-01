@@ -71,8 +71,8 @@ class Vehicule:
             return margin
         else:
             margin = self.margin + \
-                          self.time[-1] - ride.earlier_start - \
-                          distance(ride.start, self.rides[-1].start)
+                          self.time[0] - ride.earlier_start - \
+                          distance(ride.start, self.rides[0].start)
             return margin
 
     def ajoutTelquel(self, ride):
@@ -83,7 +83,7 @@ class Vehicule:
 
     def push_ride(self, ride):
         index = 0
-        while index < 100 and ride.earlier_start + ride.distance >= self.time[0]:
+        while index < 100 and ride.earlier_start + ride.distance + distance(ride.finish, self.rides[0].start) >= self.time[0]:
             index += 1
             for i, t in enumerate(self.time):
                 if self.time[i] + self.rides[i].distance < self.rides[i].latest_finish:
