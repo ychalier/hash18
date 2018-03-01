@@ -30,11 +30,11 @@ def compute_file(filename):
         for j in range(inp.F):
 
             # Si le vehicule peut prendre la course
-            if vehicules[i].can_take(ride):
-                margin = vehicules[i].margin_if_added(ride)
-                if margin < max_margin:
+            if vehicules[j].ajoutTelquel(ride):
+                margin = vehicules[j].getPotMargin(ride)
+                if max_margin is None or margin < max_margin:
                     max_margin = margin
-                    max_index = i
+                    max_index = j
 
         if max_index >= 0:  # On peut poser la course directement
             vehicules[max_index].add_ride(ride)
@@ -44,10 +44,10 @@ def compute_file(filename):
                 max_index = -1
                 max_margin = None
                 for j in range(inp.F):
-                    margin = vehicules[i].margin_if_added(ride)
-                    if margin < max_margin:
+                    margin = vehicules[j].getPotMargin(ride)
+                    if max_margin is None or margin < max_margin:
                         max_margin = margin
-                        max_index = i
+                        max_index = j
 
                 if vehicules[max_index].can_push(ride):
                     vehicules[max_index].push_ride(ride)

@@ -54,7 +54,7 @@ class Vehicule:
         else:
             self.margin = self.margin + \
                           self.time[-1] - ride.earlier_start - \
-                          distance(ride.start, self.ride[-1].start)     
+                          distance(ride.start, self.rides[-1].start)
             self.time = [ride.earlier_start] + self.time
                           
         self.rides = [ride] + self.rides
@@ -66,17 +66,27 @@ class Vehicule:
         return self.__str__()
 
     def getPotMargin(self, ride):
-        if self.rides == []:
+        if len(self.rides) == 0:
             margin = ride.latest_finish - ride.earlier_start - ride.distance
             return margin
         else:
             margin = self.margin + \
                           self.time[-1] - ride.earlier_start - \
-                          distance(ride.start, self.ride[-1].start)     
+                          distance(ride.start, self.rides[-1].start)
             return margin
-    def ajoutTelquel(self, ride):
-        return getPotMargin(ride) > 0               
 
+    def ajoutTelquel(self, ride):
+        return ride.earlier_start + ride.distance + distance(ride.finish, self.rides[0].start) < self.time[0]
+
+    def can_push(self, ride):
+        return ride.earlier_start + ride.distance < self.time[0] + self.margin
+
+    def push_ride(self, ride):
+        while ride.earlier_start + ride.distance >= self.time[0]:
+            for i, t in enumerate(self.time):
+                if self.time[i] + self.rides[i].distance < self.rides[i].latest_finish:
+                    self.time[i] += 1
+        self.add_ride(ride)
 
 
 def distance(start, finish):
