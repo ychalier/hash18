@@ -19,12 +19,14 @@ class Input:
 
 
 class Ride:
-    def __init__(self, line):
+    def __init__(self, line, id_):
         split = line.split(" ")
+        self.id = id_
         self.start = int(split[0]), int(split[1])
         self.finish = int(split[2]), int(split[3])
         self.earlier_start = int(split[4])
         self.latest_finish = int(split[5])
+        self.distance = distance(self.start, self.finish)
 
     def __str__(self):
         return "ride from " + str(self.start) + " to " + str(self.finish)\
@@ -32,11 +34,37 @@ class Ride:
                + ", latest finish " + str(self.latest_finish)
 
 
+class Vehicule:
+    def __init__(self, id_):
+        self.id = id_
+        self.pos = 0, 0
+        self.rides = []
+        self.time = 0
+
+    def add_ride(self, ride):
+        self.time += ride.distance
+        self.pos = ride.finish
+        self.rides.append(ride)
+
+    def time_for_ride(self, ride):
+        t = self.time + distance(self.pos, ride.start)
+        if t > ride.earlier_start:
+            return t
+        else:
+            return ride.earlier_start
+
+
+def distance(start, finish):
+    return abs(start[0] - finish[0]) + abs(start[1] - finish[1])
+
+
 def read_file(filename):
     file_object = open(filename, 'r')
     inp = Input(file_object.readline())
+    index = 0
     for line in file_object.readlines():
-        ride = Ride(line)
+        ride = Ride(line, index)
+        index += 1
         inp.rides.append(ride)
     file_object.close()
     return inp
