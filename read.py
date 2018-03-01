@@ -51,10 +51,7 @@ class Vehicule:
 
     def time_for_ride(self, ride):
         t = self.time + distance(self.pos, ride.start)
-        if t > ride.earlier_start:
-            return t
-        else:
-            return ride.earlier_start
+        return t
 
     def __str__(self):
         return str(self.rides)
@@ -78,5 +75,3 @@ def read_file(filename):
     file_object.close()
     return inp
 
-
-print(read_file("b_should_be_easy.in"))

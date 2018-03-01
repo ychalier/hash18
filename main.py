@@ -26,8 +26,10 @@ def compute_file(filename):
         vehicules[min_index].add_ride(ride)
     output(vehicules, filename[:-3] + ".out")
 
-
 compute_file("a_example.in")
 compute_file("b_should_be_easy.in")
+compute_file("c_no_hurry.in")
+compute_file("d_metropolis.in")
+compute_file("e_high_bonus.in")
 
 
