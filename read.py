@@ -33,6 +33,9 @@ class Ride:
                + ", earliest start " + str(self.earlier_start)\
                + ", latest finish " + str(self.latest_finish)
 
+    def __repr__(self):
+        return str(self.id)
+
 
 class Vehicule:
     def __init__(self, id_):
@@ -52,6 +55,12 @@ class Vehicule:
             return t
         else:
             return ride.earlier_start
+
+    def __str__(self):
+        return str(self.rides)
+
+    def __repr__(self):
+        return self.__str__()
 
 
 def distance(start, finish):
