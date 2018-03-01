@@ -82,7 +82,9 @@ class Vehicule:
         return ride.earlier_start + ride.distance < self.time[0] + self.margin
 
     def push_ride(self, ride):
-        while ride.earlier_start + ride.distance >= self.time[0]:
+        index = 0
+        while index < 100 and ride.earlier_start + ride.distance >= self.time[0]:
+            index += 1
             for i, t in enumerate(self.time):
                 if self.time[i] + self.rides[i].distance < self.rides[i].latest_finish:
                     self.time[i] += 1
