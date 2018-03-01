@@ -53,8 +53,8 @@ class Vehicule:
             self.time.append(ride.earlier_start)
         else:
             self.margin = self.margin + \
-                          self.time[-1] - ride.earlier_start - \
-                          distance(ride.start, self.rides[-1].start)
+                          self.time[0] - ride.earlier_start - \
+                          distance(ride.start, self.rides[0].start)
             self.time = [ride.earlier_start] + self.time
                           
         self.rides = [ride] + self.rides
