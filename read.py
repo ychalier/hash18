@@ -36,28 +36,17 @@ class Ride:
     def __repr__(self):
         return str(self.id)
 
-    
+
 
 
 class Vehicule:
     def __init__(self, id_):
         self.id = id_
-        #self.pos = 0, 0
+        self.pos = 0, 0
         self.rides = []
         self.margin = 0
-        self.time = []
-
-    def add_ride(self, ride):
-        if self.rides == []:
-            self.margin = ride.latest_finish - ride.earlier_start - ride.distance
-            self.time.append(ride.earlier_start)
-        else:
-            self.margin = self.margin + \
-                          self.time[0] - ride.earlier_start - \
-                          distance(ride.start, self.rides[0].start)
-            self.time = [ride.earlier_start] + self.time
-                          
-        self.rides = [ride] + self.rides
+        self.times = []
+        self.time = 0
 
     def __str__(self):
         return str(self.rides)
@@ -65,30 +54,46 @@ class Vehicule:
     def __repr__(self):
         return self.__str__()
 
-    def getPotMargin(self, ride):
-        if len(self.rides) == 0:
-            margin = ride.latest_finish - ride.earlier_start - ride.distance
-            return margin
+    def add_ride_basic(self, ride):
+        self.time += ride.distance
+        self.pos = ride.finish
+        self.rides.append(ride)
+
+    def add_ride_advanced(self, ride):
+        if self.rides == []:
+            self.margin = ride.latest_finish - ride.earlier_start - ride.distance
+            self.times.append(ride.earlier_start)
         else:
-            margin = self.margin + \
-                          self.time[0] - ride.earlier_start - \
+            self.margin = self.margin + \
+                          self.times[0] - ride.earlier_start - \
                           distance(ride.start, self.rides[0].start)
+            self.times = [ride.earlier_start] + self.times
+
+        self.rides = [ride] + self.rides
+
+    def get_margin(self, ride):
+        if len(self.rides) == 0:
+            return ride.latest_finish - ride.earlier_start - ride.distance
+        else:
+            margin = self.margin + self.times[0] - ride.earlier_start\
+                    - distance(ride.start, self.rides[0].start)
             return margin
 
-    def ajoutTelquel(self, ride):
-        return ride.earlier_start + ride.distance + distance(ride.finish, self.rides[0].start) < self.time[0]
+    def can_add(self, ride):
+        return ride.earlier_start + ride.distance\
+               + distance(ride.finish, self.rides[0].start) < self.time[0]
 
     def can_push(self, ride):
-        return ride.earlier_start + ride.distance < self.time[0] + self.margin
+        return ride.earlier_start + ride.distance < self.times[0] + self.margin
 
     def push_ride(self, ride):
         index = 0
-        while index < 100 and ride.earlier_start + ride.distance + distance(ride.finish, self.rides[0].start) >= self.time[0]:
+        while index < 100 and ride.earlier_start + ride.distance + distance(ride.finish, self.rides[0].start) >= self.times[0]:
             index += 1
             for i, t in enumerate(self.time):
-                if self.time[i] + self.rides[i].distance < self.rides[i].latest_finish:
-                    self.time[i] += 1
-        self.add_ride(ride)
+                if self.times[i] + self.rides[i].distance < self.rides[i].latest_finish:
+                    self.times[i] += 1
+        self.add_ride_advanced(ride)
 
 
 def distance(start, finish):
@@ -105,4 +110,3 @@ def read_file(filename):
         inp.rides.append(ride)
     file_object.close()
     return inp
-
