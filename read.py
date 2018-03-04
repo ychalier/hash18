@@ -42,4 +42,31 @@ def read_file(filename):
     return inp
 
 
-print(read_file("b_should_be_easy.in"))
+def printTocode(ObjectVehicule):
+    for vehicule in ObjectVehicule:
+        print(len(vehicule.rides))
+        for ride in vehicules.rides:
+            print ride.id
+        print("\n")
+
+#print(read_file("b_should_be_easy.in"))
+if __name__ == "__main__":
+    inp = read_file("d_metropolis.in")
+    inp.rides.sort(key=lambda x: x.latest_finish)
+    dispo = []
+    distances = []
+    numberofVehicules = inp.F
+
+    for v in range(numberofVehicules) :
+        print 1,v
+
+            #print 3,1,2,3,4,5,6,7
+
+            #print 0
+
+    """
+    inp = read_file("a_example.in")
+    numberofVehicules = inp.F
+    for v in range(numberofVehicules) :
+        print 1,v
+    """
