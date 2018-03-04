@@ -24,7 +24,7 @@ def compute_file(filename):
     # Ajout des suivants
     for i in range(inp.F, inp.N):
         ride = inp.rides[i]
-
+        print(i)
         max_index = -1
         max_margin = None
         for j in range(inp.F):
